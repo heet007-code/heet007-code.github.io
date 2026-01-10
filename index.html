@@ -24,8 +24,8 @@
         --shadow: rgba(0, 0, 0, 0.1);
         --shadow-hover: rgba(0, 0, 0, 0.15);
         --card-bg: #ffffff;
-        --project-box-1: #fcb97d;
-        --project-box-2: #aaba9e;
+        --project-box-1: #32a88e;
+        --project-box-2: #b296ff;
         --name-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       }
 
@@ -43,8 +43,8 @@
         --shadow: rgba(0, 0, 0, 0.3);
         --shadow-hover: rgba(0, 0, 0, 0.4);
         --card-bg: #2d3748;
-        --project-box-1: #d69e2e;
-        --project-box-2: #68d391;
+        --project-box-1: #4fd1c7;
+        --project-box-2: #c4b5fd;
         --name-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       }
 
@@ -204,8 +204,6 @@
         border-radius: 12px;
         padding: 24px;
         margin-bottom: 20px;
-        display: flex;
-        gap: 24px;
         box-shadow: 0 2px 8px var(--shadow);
         transition: all 0.3s ease;
         overflow: hidden;
@@ -234,38 +232,8 @@
         opacity: 1;
       }
 
-      .paper-image {
-        flex-shrink: 0;
-        width: 150px;
-        position: relative;
-      }
-
-      .paper-image .one {
-        position: relative;
-        width: 100%;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 8px var(--shadow);
-      }
-
-      .paper-image .two {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-
-      .paper-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-        border-radius: 8px;
-      }
-
       .paper-content {
-        flex: 1;
+        width: 100%;
       }
 
       .papertitle {
@@ -407,16 +375,6 @@
           font-size: 2em;
         }
 
-        .paper-card {
-          flex-direction: column;
-        }
-
-        .paper-image {
-          width: 100%;
-          max-width: 200px;
-          margin: 0 auto;
-        }
-
         .misc-item {
           flex-direction: column;
           text-align: center;
@@ -460,14 +418,14 @@
           <p class="name">Heet Dalsania</p>
           <p class="bio">
             I'm an undergraduate research student at <a href="https://www.asu.edu/" style="color: var(--accent); text-decoration: none;">Arizona State University</a> where I am pursuing a degree in Computer Science.
-            I am passionate about bettering and advancing Artificial Intelligence. 
+		I am passionate about bettering and advancing Artificial Intelligence. 
             Currenly I am working in <a href="https://www.pooyanfazli.com/index.html" style="color: var(--accent); text-decoration: none;">People and Robots Laboratory (PeRL)</a>, led by Dr. Pooyan Fazli.
           </p>
           <div class="links">
             <a href="mailto:hdalsani@asu.edu">Email</a>
             <a href="https://www.linkedin.com/in/heet-dalsania-b37999283/">LinkedIn</a>
             <a href="https://scholar.google.com/citations?user=npmDms8AAAAJ&hl=en">Scholar</a>
-            <a href="https://github.com/heet007-code">Github</a>
+                  <a href="https://github.com/heet007-code">Github</a>
           </div>
         </div>
         <div class="profile-image">
@@ -484,16 +442,7 @@
         </p>
       </div>
       
-      <div class="paper-card" onmouseout="radmesh_stop()" onmouseover="radmesh_start()">
-        <div class="paper-image">
-          <div class="one">
-            <div class="two" id='radmesh_image'>
-              <img src='images/radmesh_after.jpg' alt="RadMesh after">
-            </div>
-            <img src='images/radmesh_before.jpg' alt="RadMesh before">
-          </div>
-        </div>
-        
+      <div class="paper-card">
         <div class="paper-content">
           <a href="https://arxiv.org/abs/2507.07254">
             <span class="papertitle">Label-Efficient Chest X-ray Diagnosis via Partial CLIP Adaptation</span>
@@ -549,15 +498,6 @@
     </div>
 
     <script type="text/javascript">
-      function radmesh_start() {
-        document.getElementById('radmesh_image').style.opacity = "1";
-      }
-
-      function radmesh_stop() {
-        document.getElementById('radmesh_image').style.opacity = "0";
-      }
-      radmesh_stop();
-
       // Theme toggle functionality
       (function() {
         const themeToggle = document.getElementById('themeToggle');
