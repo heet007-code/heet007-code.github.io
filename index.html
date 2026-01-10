@@ -8,56 +8,545 @@
     <meta name="author" content="Heet Dalsania">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="images/favicon/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="stylesheet.css">
     
+    <style>
+      :root {
+        /* Light mode colors */
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8f9fa;
+        --bg-tertiary: #ffffd0;
+        --text-primary: #2d3748;
+        --text-secondary: #4a5568;
+        --text-muted: #718096;
+        --accent: #3182ce;
+        --accent-hover: #2c5aa0;
+        --border: #e2e8f0;
+        --shadow: rgba(0, 0, 0, 0.1);
+        --shadow-hover: rgba(0, 0, 0, 0.15);
+        --card-bg: #ffffff;
+        --project-box-1: #fcb97d;
+        --project-box-2: #aaba9e;
+        --name-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      [data-theme="dark"] {
+        /* Dark mode colors */
+        --bg-primary: #1a202c;
+        --bg-secondary: #2d3748;
+        --bg-tertiary: #3d4a5c;
+        --text-primary: #f7fafc;
+        --text-secondary: #e2e8f0;
+        --text-muted: #a0aec0;
+        --accent: #63b3ed;
+        --accent-hover: #90cdf4;
+        --border: #4a5568;
+        --shadow: rgba(0, 0, 0, 0.3);
+        --shadow-hover: rgba(0, 0, 0, 0.4);
+        --card-bg: #2d3748;
+        --project-box-1: #d69e2e;
+        --project-box-2: #68d391;
+        --name-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        background: var(--card-bg);
+        border: 2px solid var(--border);
+        border-radius: 50px;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: 0 4px 6px var(--shadow);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .theme-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px var(--shadow-hover);
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+
+      .header-section {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 60px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .header-content {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .name {
+        font-size: 2.5em;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-align: center;
+        background: var(--name-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+      }
+
+      .bio {
+        font-size: 1.1em;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+        line-height: 1.8;
+      }
+
+      .links {
+        text-align: center;
+        margin-top: 25px;
+      }
+
+      .links a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+        margin: 0 8px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .links a:hover {
+        background: var(--bg-secondary);
+        color: var(--accent-hover);
+        transform: translateY(-2px);
+      }
+
+      .profile-image {
+        flex-shrink: 0;
+      }
+
+      .profile-image img {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid var(--border);
+        box-shadow: 0 8px 16px var(--shadow);
+        transition: all 0.3s ease;
+      }
+
+      .profile-image img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 24px var(--shadow-hover);
+      }
+
+      .section {
+        margin-bottom: 50px;
+      }
+
+      .section-title {
+        font-size: 1.8em;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: var(--text-primary);
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--name-gradient);
+        border-radius: 2px;
+      }
+
+      .section-content {
+        color: var(--text-secondary);
+        font-size: 1.05em;
+        line-height: 1.8;
+      }
+
+      .paper-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 24px;
+        box-shadow: 0 2px 8px var(--shadow);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .paper-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--name-gradient);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .paper-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px var(--shadow-hover);
+        border-color: var(--accent);
+      }
+
+      .paper-card:hover::before {
+        opacity: 1;
+      }
+
+      .paper-image {
+        flex-shrink: 0;
+        width: 150px;
+        position: relative;
+      }
+
+      .paper-image .one {
+        position: relative;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px var(--shadow);
+      }
+
+      .paper-image .two {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .paper-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+
+      .paper-content {
+        flex: 1;
+      }
+
+      .papertitle {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: var(--accent);
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        transition: color 0.3s ease;
+      }
+
+      .papertitle:hover {
+        color: var(--accent-hover);
+      }
+
+      .paper-authors {
+        color: var(--text-primary);
+        font-weight: 500;
+        margin: 8px 0;
+      }
+
+      .paper-venue {
+        color: var(--text-muted);
+        font-style: italic;
+        margin: 4px 0;
+      }
+
+      .paper-links {
+        margin: 12px 0;
+      }
+
+      .paper-links a {
+        color: var(--accent);
+        text-decoration: none;
+        margin-right: 16px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .paper-links a:hover {
+        color: var(--accent-hover);
+      }
+
+      .paper-abstract {
+        color: var(--text-secondary);
+        line-height: 1.7;
+        margin-top: 12px;
+      }
+
+      .misc-item {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 24px;
+        box-shadow: 0 2px 8px var(--shadow);
+        transition: all 0.3s ease;
+        align-items: center;
+      }
+
+      .misc-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px var(--shadow-hover);
+      }
+
+      .misc-box {
+        flex-shrink: 0;
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px var(--shadow);
+        transition: transform 0.3s ease;
+      }
+
+      .misc-item:hover .misc-box {
+        transform: rotate(5deg) scale(1.05);
+      }
+
+      .misc-box h2 {
+        font-size: 1.1em;
+        color: white;
+        text-align: center;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .misc-content {
+        flex: 1;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+
+      .misc-content a {
+        color: var(--accent);
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        transition: all 0.3s ease;
+        padding: 4px 0;
+      }
+
+      .misc-content a:hover {
+        color: var(--accent-hover);
+        padding-left: 8px;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 60px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+        color: var(--text-muted);
+        font-size: 0.9em;
+      }
+
+      .footer a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer a:hover {
+        color: var(--accent-hover);
+      }
+
+      @media (max-width: 768px) {
+        .header-section {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .name {
+          font-size: 2em;
+        }
+
+        .paper-card {
+          flex-direction: column;
+        }
+
+        .paper-image {
+          width: 100%;
+          max-width: 200px;
+          margin: 0 auto;
+        }
+
+        .misc-item {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .misc-box {
+          width: 100px;
+          height: 100px;
+        }
+
+        .theme-toggle {
+          top: 10px;
+          right: 10px;
+          width: 50px;
+          height: 50px;
+          font-size: 20px;
+        }
+      }
+
+      /* Smooth scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Selection color */
+      ::selection {
+        background: var(--accent);
+        color: white;
+      }
+    </style>
   </head>
 
   <body>
-    <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-      <tr style="padding:0px">
-        <td style="padding:0px">
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr style="padding:0px">
-              <td style="padding:2.5%;width:63%;vertical-align:middle">
-                <p class="name" style="text-align: center;">
-                  Heet Dalsania
-                </p>
-                <p>
-		I'm an undergraduate research student at <a href="https://www.asu.edu/">Arizona State University</a> where I am pursuing a degree in Computer Science.
-		I am passionate about bettering and advancing Artificial Intelligence. 
-		Currenly I am working in <a href="https://www.pooyanfazli.com/index.html">People and Robots Laboratory (PeRL)</a>, led by Dr. Pooyan Fazli.
-                </p>
-                <p style="text-align:center">
-                  <a href="mailto:hdalsani@asu.edu">Email</a> &nbsp;/&nbsp;
-                  <a href="data/JonBarron-CV.pdf">CV</a> &nbsp;/&nbsp;
-                  <a href="https://scholar.google.com/citations?user=npmDms8AAAAJ&hl=en">Scholar</a> &nbsp;/&nbsp;
-                  <a href="https://github.com/heet007-code">Github</a>
-                </p>
-              </td>
-              <td style="padding:2.5%;width:37%;max-width:37%">
-                <a href="images/JonBarron.jpg"><img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%;" alt="profile photo" src="images/JonBarron.jpg" class="hoverZoomLink"></a>
-              </td>
-            </tr>
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-              <tr>
-              <td style="padding:16px;width:100%;vertical-align:middle">
-                <h2>Research</h2>
-                <p>
-                  I'm interested in computer vision, deep learning, generative AI, and robotics. I have some previous experience with computer vision and deep learning research.
-              </td>
-            </tr>
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span id="themeIcon">🌙</span>
+    </button>
 
-<tr onmouseout="radmesh_stop()" onmouseover="radmesh_start()" bgcolor="#ffffd0">
-  <td style="padding:16px;width:20%;vertical-align:middle">
-    <div class="one">
-      <div class="two" id='radmesh_image'>
-        <img src='images/radmesh_after.jpg' width=100%>
+    <div class="container">
+      <div class="header-section">
+        <div class="header-content">
+          <p class="name">Heet Dalsania</p>
+          <p class="bio">
+            I'm an undergraduate research student at <a href="https://www.asu.edu/" style="color: var(--accent); text-decoration: none;">Arizona State University</a> where I am pursuing a degree in Computer Science.
+            I am passionate about bettering and advancing Artificial Intelligence. 
+            Currenly I am working in <a href="https://www.pooyanfazli.com/index.html" style="color: var(--accent); text-decoration: none;">People and Robots Laboratory (PeRL)</a>, led by Dr. Pooyan Fazli.
+          </p>
+          <div class="links">
+            <a href="mailto:hdalsani@asu.edu">Email</a>
+            <a href="data/JonBarron-CV.pdf">CV</a>
+            <a href="https://scholar.google.com/citations?user=npmDms8AAAAJ&hl=en">Scholar</a>
+            <a href="https://github.com/heet007-code">Github</a>
+          </div>
+        </div>
+        <div class="profile-image">
+          <a href="images/JonBarron.jpg">
+            <img alt="profile photo" src="images/JonBarron.jpg">
+          </a>
+        </div>
       </div>
-      <img src='images/radmesh_before.jpg' width=100%>
+
+      <div class="section">
+        <h2 class="section-title">Research</h2>
+        <p class="section-content">
+          I'm interested in computer vision, deep learning, generative AI, and robotics. I have some previous experience with computer vision and deep learning research.
+        </p>
+      </div>
+
+      <div class="paper-card" onmouseout="radmesh_stop()" onmouseover="radmesh_start()">
+        <div class="paper-image">
+          <div class="one">
+            <div class="two" id='radmesh_image'>
+              <img src='images/radmesh_after.jpg' alt="RadMesh after">
+            </div>
+            <img src='images/radmesh_before.jpg' alt="RadMesh before">
+          </div>
+        </div>
+        <div class="paper-content">
+          <a href="https://half-potato.gitlab.io/rm/">
+            <span class="papertitle">Label-Efficient Chest X-ray Diagnosis via Partial CLIP Adaptation</span>
+          </a>
+          <div class="paper-authors">
+            <strong>Heet N. Dalsania</strong>
+          </div>
+          <div class="paper-venue">
+            <em>arXiv</em>, 2025
+          </div>
+          <div class="paper-links">
+            <a href="https://arxiv.org/abs/2507.07254">arXiv</a>
+          </div>
+          <p class="paper-abstract">
+            Modern deep learning implementations for medical imaging usually rely on large labeled datasets. These datasets are often difficult to obtain due to privacy concerns, high costs, and even scarcity of cases. In this paper, a label-efficient strategy is proposed for chest X-ray diagnosis that seeks to reflect real-world hospital scenarios. The experiments use the NIH Chest X-ray14 dataset and a pre-trained CLIP ViT-B/32 model. The model is adapted via partial fine-tuning of its visual encoder and then evaluated using zero-shot and few-shot learning with 1-16 labeled examples per disease class. The tests demonstrate that CLIP's pre-trained vision-language features can be effectively adapted to few-shot medical imaging tasks, achieving over 20% improvement in mean AUC score as compared to the zero-shot baseline. The key aspect of this work is to attempt to simulate internal hospital workflows, where image archives exist but annotations are sparse. This work evaluates a practical and scalable solution for both common and rare disease diagnosis.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Miscellanea</h2>
+
+        <div class="misc-item">
+          <div class="misc-box" style="background: var(--project-box-1);">
+            <h2>Projects</h2>
+          </div>
+          <div class="misc-content">
+            NBA Machine Learning MVP Prediction<br>
+            Stock Market News Aggregator<br>
+          </div>
+        </div>
+
+        <div class="misc-item">
+          <div class="misc-box" style="background: var(--project-box-2);">
+            <h2>Certifications</h2>
+          </div>
+          <div class="misc-content">
+            <a href="https://www.credly.com/badges/06456cc7-422c-4a03-b127-21307e455249/public_url">AWS Certified AI Practitioner</a>
+            <a href="https://www.credly.com/badges/c27eef02-6dfb-483d-9f9c-d6f6bfb4c134/public_url">IBM Applied AI Professional</a>
+            <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=EAA5B06AFF3B465D18F919789C82934BB7A35E4CAF0ADFDE18AC71D6E7BDB999">Oracle Cloud Infrastructure Generative AI Certified Professional</a>
+            <a href="https://www.coursera.org/account/accomplishments/verify/4PK3VEKM7UHE">Supervised Machine Learning: Regression and Classification</a>
+            <a href="https://www.coursera.org/account/accomplishments/verify/DC48XJFU58KH">Linear Algebra for Machine Learning and Data Science</a>
+            <a href="https://learn.nvidia.com/certificates?id=JK0P_kGfQIKFWozD__gi_w">NVIDIA Disaster Risk Monitoring Using Satellite Imagery</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>
+          Website's original <a href="https://github.com/jonbarron/jonbarron_website">source code</a>.
+        </p>
+      </div>
     </div>
+
     <script type="text/javascript">
       function radmesh_start() {
         document.getElementById('radmesh_image').style.opacity = "1";
@@ -66,82 +555,31 @@
       function radmesh_stop() {
         document.getElementById('radmesh_image').style.opacity = "0";
       }
-      radmesh_stop()
+      radmesh_stop();
+
+      // Theme toggle functionality
+      (function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        updateIcon(currentTheme);
+
+        themeToggle.addEventListener('click', function() {
+          const currentTheme = html.getAttribute('data-theme');
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', newTheme);
+          localStorage.setItem('theme', newTheme);
+          updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+          themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+        }
+      })();
     </script>
-  </td>
-  <td style="padding:8px;width:80%;vertical-align:middle">
-    <a href="https://half-potato.gitlab.io/rm/">
-      <span class="papertitle">Label-Efficient Chest X-ray Diagnosis via Partial CLIP Adaptation</span>
-    </a>
-    <br>
-    <strong>Heet N. Dalsania</strong>
-    <br>
-    <em>arXiv</em>, 2025
-    <br>
-    <a href="https://arxiv.org/abs/2507.07254">arXiv</a>
-    <p></p>
-    <p>
-	Modern deep learning implementations for medical imaging usually rely on large labeled datasets. These datasets are often difficult to obtain due to privacy concerns, high costs, and even scarcity of cases. In this paper, a label-efficient strategy is proposed for chest X-ray diagnosis that seeks to reflect real-world hospital scenarios. The experiments use the NIH Chest X-ray14 dataset and a pre-trained CLIP ViT-B/32 model. The model is adapted via partial fine-tuning of its visual encoder and then evaluated using zero-shot and few-shot learning with 1-16 labeled examples per disease class. The tests demonstrate that CLIP's pre-trained vision-language features can be effectively adapted to few-shot medical imaging tasks, achieving over 20% improvement in mean AUC score as compared to the zero-shot baseline. The key aspect of this work is to attempt to simulate internal hospital workflows, where image archives exist but annotations are sparse. This work evaluates a practical and scalable solution for both common and rare disease diagnosis.
-    </p>
-  </td>
-</tr>
-
-          </tbody></table>
-
-          
-					<table style="width:100%; margin:0 auto; border:0; border-spacing:0; padding:16px;"><tbody>
-            <tr>
-              <td>
-                <h2>Miscellanea</h2>
-              </td>
-            </tr>
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            
-           
-            <tr>
-              <td align="center" style="padding:16px;width:20%;vertical-align:middle">
-						     <div class="colored-box" style="background-color: #fcb97d;">
-								 <h2>Projects</h2>
-								 </div>
-              </td>
-              <td style="padding:8px;width:80%;vertical-align:middle">
-                NBA Machine Learning MVP Prediction</a><br>
-                Stock Market News Aggregator</a><br>
-              </td>
-            </tr>
-
-
-            <tr>
-              <td align="center" style="padding:16px;width:20%;vertical-align:middle">
-						     <div class="colored-box" style="background-color: #aaba9e;">
-								 <h2>Certifications</h2>
-								 </div>
-              </td>
-              <td style="padding:8px;width:80%;vertical-align:center">
-                <a href="https://www.credly.com/badges/06456cc7-422c-4a03-b127-21307e455249/public_url">AWS Certified AI Practitioner</a><br>				  
-                <a href="https://www.credly.com/badges/c27eef02-6dfb-483d-9f9c-d6f6bfb4c134/public_url">IBM Applied AI Professional</a><br>
-                <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=EAA5B06AFF3B465D18F919789C82934BB7A35E4CAF0ADFDE18AC71D6E7BDB999">Oracle Cloud Infrastructure Generative AI Certified Professional</a><br>
-                <a href="https://www.coursera.org/account/accomplishments/verify/4PK3VEKM7UHE">Supervised Machine Learning: Regression and Classification</a><br>
-				<a href="https://www.coursera.org/account/accomplishments/verify/DC48XJFU58KH">Linear Algebra for Machine Learning and Data Science</a><br>
-				<a href="https://learn.nvidia.com/certificates?id=JK0P_kGfQIKFWozD__gi_w">NVIDIA Disaster Risk Monitoring Using Satellite Imagery</a>
-              </td>
-            </tr>
-          
-            
-          </tbody></table>
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr>
-              <td style="padding:0px">
-                <br>
-                <p style="text-align:middle;font-size:small;">
-                  Website's original <a href="https://github.com/jonbarron/jonbarron_website">source code</a>. 
-                </p>
-              </td>
-            </tr>
-          </tbody></table>
-        </td>
-      </tr>
-    </table>
   </body>
 </html>
